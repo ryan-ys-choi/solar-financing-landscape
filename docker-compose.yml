@@ -27,11 +27,14 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__WEBSERVER__SECRET_KEY: 'solar123'
       AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
+      DB_HOST: postgres
+      DB_PORT: 5432
       DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scripts:/opt/airflow/scripts
       - ./data:/opt/airflow/data
+      - ./sql:/opt/airflow/sql
       - airflow_logs:/opt/airflow/logs
     ports:
       - "8080:8080"
@@ -39,7 +42,8 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      bash -c "airflow db init &&
+      bash -c "pip install 'yfinance==0.2.18' 'multitasking==0.0.11' pandas psycopg2-binary sqlalchemy python-dotenv &&
+               airflow db init &&
                airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
                airflow webserver & airflow scheduler"
     restart: unless-stopped

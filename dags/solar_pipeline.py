@@ -23,10 +23,14 @@ with DAG(
         bash_command='cd /opt/airflow && python scripts/collect.py',
     )
 
+    init_schema = BashOperator(
+        task_id='init_schema',
+        bash_command='cd /opt/airflow && python scripts/init_schema.py',
+    )
+
     load = BashOperator(
         task_id='load_data',
         bash_command='cd /opt/airflow && python scripts/load.py',
     )
 
-    collect >> load
-
+    collect >> init_schema >> load

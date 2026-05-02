@@ -36,11 +36,11 @@ CREATE TABLE IF NOT EXISTS income_statements (
     ticker              VARCHAR(10) REFERENCES companies(ticker),
     period_date         DATE NOT NULL,
     period_type         VARCHAR(10), -- 'annual' or 'quarterly'
-    revenue             BIGINT,
-    gross_profit        BIGINT,
-    operating_income    BIGINT,
-    net_income          BIGINT,
-    ebitda              BIGINT,
+    revenue             NUMERIC,
+    gross_profit        NUMERIC,
+    operating_income    NUMERIC,
+    net_income          NUMERIC,
+    ebitda              NUMERIC,
     UNIQUE(ticker, period_date, period_type)
 );
 
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS balance_sheets (
     ticker              VARCHAR(10) REFERENCES companies(ticker),
     period_date         DATE NOT NULL,
     period_type         VARCHAR(10),
-    total_assets        BIGINT,
-    total_debt          BIGINT,
-    cash                BIGINT,
-    total_equity        BIGINT,
+    total_assets        NUMERIC,
+    total_debt          NUMERIC,
+    cash                NUMERIC,
+    total_equity        NUMERIC,
     UNIQUE(ticker, period_date, period_type)
 );
 
@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS cash_flows (
     ticker                  VARCHAR(10) REFERENCES companies(ticker),
     period_date             DATE NOT NULL,
     period_type             VARCHAR(10),
-    operating_cash_flow     BIGINT,
-    capital_expenditure     BIGINT,
-    free_cash_flow          BIGINT,
+    operating_cash_flow     NUMERIC,
+    capital_expenditure     NUMERIC,
+    free_cash_flow          NUMERIC,
     UNIQUE(ticker, period_date, period_type)
 );
 
@@ -77,6 +77,6 @@ CREATE TABLE IF NOT EXISTS solar_metrics (
     period_type         VARCHAR(10),
     installed_mw        NUMERIC(10,2),
     customers           INTEGER,
-    recurring_revenue   BIGINT,
+    recurring_revenue   NUMERIC,
     UNIQUE(ticker, period_date, period_type)
 );
