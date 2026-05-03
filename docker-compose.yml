@@ -48,6 +48,21 @@ services:
                airflow webserver & airflow scheduler"
     restart: unless-stopped
 
+  dashboard:
+    build:
+      context: ./dashboard
+    container_name: solar_dashboard
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8501:8501"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   airflow_logs:

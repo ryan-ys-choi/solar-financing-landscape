@@ -38,8 +38,10 @@ st.markdown("""
 # DB connection
 @st.cache_resource
 def get_engine():
+    host = os.getenv('DB_HOST', 'localhost')
+    port = os.getenv('DB_PORT', 5433)
     password = os.getenv('DB_PASSWORD')
-    return create_engine(f'postgresql://postgres:{password}@localhost:5433/solar_financing')
+    return create_engine(f'postgresql://postgres:{password}@{host}:{port}/solar_financing')
 
 
 @st.cache_data
@@ -157,4 +159,3 @@ with tab4:
 
 st.divider()
 st.caption("Data sourced from Yahoo Finance via yfinance · Built with Streamlit + PostgreSQL")
-
