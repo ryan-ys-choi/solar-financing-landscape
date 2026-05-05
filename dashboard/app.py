@@ -49,7 +49,8 @@ def load_data():
     engine = get_engine()
     
     revenue = pd.read_sql("""
-        SELECT ticker, period_date, revenue, net_income,
+        SELECT ticker, period_date, revenue, gross_profit, net_income,
+            ROUND(gross_profit / NULLIF(revenue, 0) * 100, 2) AS gross_margin_pct,
             ROUND(net_income / NULLIF(revenue, 0) * 100, 2) AS net_margin_pct
         FROM income_statements WHERE period_type = 'annual'
         ORDER BY ticker, period_date
@@ -133,6 +134,17 @@ with tab2:
         yaxis_title='Net Margin'
     )
     st.plotly_chart(fig2, use_container_width=True)
+
+    fig3 = px.line(revenue_df.dropna(subset=['gross_margin_pct']), x='period_date', y='gross_margin_pct',
+                   color='ticker', color_discrete_map=COLORS, markers=True,
+                   title='Gross Margin (%)')
+    fig3.update_layout(
+        template='plotly_dark',
+        yaxis=dict(ticksuffix='%'),
+        xaxis_title='Year',
+        yaxis_title='Gross Margin'
+    )
+    st.plotly_chart(fig3, use_container_width=True)
 
 with tab3:
     fig = px.line(stock_df, x='date', y='close', color='ticker',
