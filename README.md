@@ -85,3 +85,14 @@ The Airflow DAG (`solar_pipeline`) runs weekly and executes three tasks in seque
 ```
 collect_data → init_schema → load_data
 ```
+
+## Key Findings
+
+**1. Gross margin reveals the hardware vs. financing divide.**
+ENPH (microinverter hardware) sustained ~42–47% gross margins across 2022–2025. RUN (solar leasing/financing) averaged 7–16% over the same period before recovering to 30% in 2025. Same industry, fundamentally different unit economics — hardware commands pricing power that a financing model cannot.
+
+**2. ENPH's 42% revenue decline in 2024 was a demand correction, not a competitive loss.**
+Revenue dropped from $2.29B (2023) to $1.33B (2024) due to European demand slowdown and installer inventory destocking. Gross margins held at ~47% throughout. A revenue decline with stable margins signals a volume problem, not a pricing or cost problem — the business model remained intact.
+
+**3. RUN's -$2.85B net loss in 2024 was accounting-driven, not operational.**
+$3.1B of that loss came from non-cash asset impairment charges. Stripping those out, gross profit in 2025 rebounded to $897M on $2.96B revenue — the strongest margin profile in the dataset for RUN. Distinguishing between accounting write-downs and operating deterioration is critical when reading solar company financials, which carry large long-term asset portfolios.
