@@ -71,10 +71,10 @@ python scripts/load.py
 
 ## Dashboard
 
-Five analysis views:
+Four tabs, seven charts:
 
-- **Revenue** — annual revenue comparison across tickers
-- **Profitability** — net income and net margin trends
+- **Revenue** — annual revenue comparison + year-over-year growth % (SQL window function)
+- **Profitability** — net income, net margin %, and gross margin % by ticker
 - **Stock Price** — daily close price history (2019–present)
 - **Debt & Cash Flow** — debt-to-equity ratio and free cash flow
 

@@ -51,7 +51,11 @@ def load_data():
     revenue = pd.read_sql("""
         SELECT ticker, period_date, revenue, gross_profit, net_income,
             ROUND(gross_profit / NULLIF(revenue, 0) * 100, 2) AS gross_margin_pct,
-            ROUND(net_income / NULLIF(revenue, 0) * 100, 2) AS net_margin_pct
+            ROUND(net_income / NULLIF(revenue, 0) * 100, 2) AS net_margin_pct,
+            ROUND(
+                (revenue - LAG(revenue) OVER (PARTITION BY ticker ORDER BY period_date))
+                / NULLIF(LAG(revenue) OVER (PARTITION BY ticker ORDER BY period_date), 0) * 100, 1
+            ) AS yoy_growth_pct
         FROM income_statements WHERE period_type = 'annual'
         ORDER BY ticker, period_date
     """, engine)
@@ -111,6 +115,17 @@ with tab1:
                   title='Annual Revenue Comparison')
     fig.update_layout(template='plotly_dark', yaxis_tickformat='$,.0f')
     st.plotly_chart(fig, use_container_width=True)
+
+    fig_yoy = px.bar(revenue_df.dropna(subset=['yoy_growth_pct']), x='period_date', y='yoy_growth_pct',
+                     color='ticker', color_discrete_map=COLORS, barmode='group',
+                     title='Year-over-Year Revenue Growth (%)')
+    fig_yoy.update_layout(
+        template='plotly_dark',
+        yaxis=dict(ticksuffix='%'),
+        xaxis_title='Year',
+        yaxis_title='YoY Growth'
+    )
+    st.plotly_chart(fig_yoy, use_container_width=True)
 
 with tab2:
     df = revenue_df.dropna(subset=['net_income'])
